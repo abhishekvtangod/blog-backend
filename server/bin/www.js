@@ -7,6 +7,7 @@ import app from '../app';
 import debugLibr from 'debug';
 import http from 'http';
 const debug = debugLibr('backend:server');
+import { APP_PORT } from '../config'
 
 // var app = require('../app');
 // var debug = require('debug')('backend:server');
@@ -16,7 +17,7 @@ const debug = debugLibr('backend:server');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(APP_PORT);
 app.set('port', port);
 
 /**
