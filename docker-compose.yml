@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  # backend:
+  #   image: backend
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   environment:
+  #     NODE_ENV: production
+  #   ports:
+  #     - 3000:3000
+  db:
+    # user: $UID
+    image: mongo
+    ports: 
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: auth
+      MONGO_USERNAME: admin
+      MONGO_PASSWORD: secret
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./data:/data/db 
+  cache:
+    image: redis:alpine
+    ports:
+      - '6379:6379'
+    command: ['--requirepass "secret"']

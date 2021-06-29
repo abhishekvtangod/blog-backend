@@ -15,24 +15,23 @@ import connectRedis from 'connect-redis'
 // var usersRouter = require('./routes/users');
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
-import keys from './config/keys'
-import { REDIS_OPTIONS, SESSION_OPTIONS, IN_PROD } from './config'
+import { REDIS_OPTIONS, SESSION_OPTIONS, MONGO_URI, MONGO_OPTIONS } from './config'
 
-mongoose.connect(keys.mongoURI, )
+mongoose.connect(MONGO_URI, MONGO_OPTIONS)
     .then(() => console.log('You are now connected to Mongo!'))
     .catch(err => console.error('Something went wrong\n', err))
 
-// const RedisStore = connectRedis(session)
-// let client = new Redis(REDIS_OPTIONS)
+const RedisStore = connectRedis(session)
+let client = new Redis(REDIS_OPTIONS)
 
 var app = express()
 
-// app.use(
-//     session({
-//         ...SESSION_OPTIONS,
-//         store: new RedisStore({ client: redisClient })
-//     })
-// )
+app.use(
+    session({
+        ...SESSION_OPTIONS,
+        store: new RedisStore({ client })
+    })
+)
  
 app.use(logger('dev'))
 app.use(express.json())

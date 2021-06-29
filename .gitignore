@@ -1,2 +1,4 @@
 node_modules
 transpiled-server
+data
+.vscode
