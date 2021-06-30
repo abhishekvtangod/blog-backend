@@ -13,8 +13,8 @@ import connectRedis from 'connect-redis'
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
-import indexRouter from './routes/index'
-import usersRouter from './routes/users'
+import { register } from './routes'
+
 import { REDIS_OPTIONS, SESSION_OPTIONS, MONGO_URI, MONGO_OPTIONS } from './config'
 
 mongoose.connect(MONGO_URI, MONGO_OPTIONS)
@@ -23,13 +23,14 @@ mongoose.connect(MONGO_URI, MONGO_OPTIONS)
 
 const RedisStore = connectRedis(session)
 let client = new Redis(REDIS_OPTIONS)
+const store = new RedisStore({ client })
 
 var app = express()
 
 app.use(
     session({
         ...SESSION_OPTIONS,
-        store: new RedisStore({ client })
+        store
     })
 )
  
@@ -39,8 +40,7 @@ app.use(express.urlencoded({ extended: false })) //for html post form
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../public')))
 
-app.use('/', indexRouter)
-app.use('/users', usersRouter)
+app.use('/register', register)
 
 // module.exports = app;
 export default app;

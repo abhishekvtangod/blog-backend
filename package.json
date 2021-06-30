@@ -18,12 +18,10 @@
     "transpile": "babel ./server --out-dir transpiled-server",
     "clean": "rimraf transpiled-server",
     "watch:dev": "nodemon",
-
     "up": "mkdir -p data && docker-compose up -d",
     "postup": "yarn watch:dev",
     "stop": "docker-compose stop",
     "down": "docker-compose down"
-
   },
   "dependencies": {
     "@babel/cli": "^7.14.5",
@@ -34,6 +32,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-session": "^1.17.2",
+    "express-validator": "^6.12.0",
     "ioredis": "^4.27.6",
     "jest": "^27.0.5",
     "mongoose": "^5.12.15",
@@ -43,7 +42,13 @@
   },
   "babel": {
     "presets": [
-      "@babel/preset-env"
-    ]
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "12"
+          }
+        }
+      ]  ]  
   }
 }
