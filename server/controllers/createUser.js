@@ -1,6 +1,6 @@
 import { User } from '../database/models'
 import { validationResult } from "express-validator";
-
+import { loginUser } from './loginUser';
 
 export const createUser = async (req, res, next) => {
     try{
@@ -22,9 +22,11 @@ export const createUser = async (req, res, next) => {
             email,
             password
           })
+        
+        loginUser(req, user.id)
 
-        // res.json({ message: 'OK'})
-        res.json(user)
+        res.json({ message: 'OK'})
+        // res.json(user)
     } catch(err){
         return next(err)
     }

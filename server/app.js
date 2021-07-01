@@ -16,6 +16,7 @@ import connectRedis from 'connect-redis'
 import { register } from './routes'
 
 import { REDIS_OPTIONS, SESSION_OPTIONS, MONGO_URI, MONGO_OPTIONS } from './config'
+import { guest } from './middleware/auth';
 
 mongoose.connect(MONGO_URI, MONGO_OPTIONS)
     .then(() => console.log('You are now connected to Mongo!'))
@@ -40,7 +41,7 @@ app.use(express.urlencoded({ extended: false })) //for html post form
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../public')))
 
-app.use('/register', register)
+app.use('/register', guest, register)
 
 // module.exports = app;
 export default app;
