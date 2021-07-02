@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 import { User } from "../database/models";
-import { BadRequest } from "../errors";
+import { BadRequest, Unauthorized } from "../errors";
 
 export const isLoggedIn = (req) => !!req.session.userId
 
@@ -22,9 +22,12 @@ export const loginUser = async (req, res, next) => {
     
     const user = await User.findOne({ email })
     
-    if(!user || )
+    if(!user || !(await user.matchPassword(password))){
+        throw new Unauthorized("Incorrect email or password")
+    }
 
-    // loginUserDirect(req, user.id)
+    loginUserDirect(req, user.id)
+
     res.json({ message: 'OK'})
     // res.json(user)
 

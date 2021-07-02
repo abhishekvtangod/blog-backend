@@ -42,7 +42,7 @@ app.use(express.urlencoded({ extended: false })) //for html post form
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../public')))
 
-app.use('/login', login)
+app.use('/login', guest, login)
 app.use('/logout', logout)
 app.use('/register', guest, register)
 
