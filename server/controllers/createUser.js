@@ -1,7 +1,7 @@
 import { User } from '../database/models'
 import { validationResult } from "express-validator";
-import { loginUserDirect } from './loginUser';
 import { BadRequest } from '../errors';
+import { logInSession } from './auth';
 
 export const createUser = async (req, res, next) => {
     const errors = validationResult(req); // Finds the validation errors in this request and wraps them in an object with handy functions
@@ -26,7 +26,7 @@ export const createUser = async (req, res, next) => {
         password
         })
     
-    loginUserDirect(req, user.id)
+    logInSession(req, user.id)
     res.json({ message: 'OK'})
     // res.json(user)
 }

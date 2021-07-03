@@ -8,8 +8,13 @@ services:
   #     dockerfile: ./Dockerfile
   #   environment:
   #     NODE_ENV: production
+  #     REDIS_HOST: cache
+  #     MONGO_HOST: db
   #   ports:
   #     - 3000:3000
+  #   links:
+  #     - db
+  #     - cache
   db:
     # user: $UID
     image: mongo
@@ -23,9 +28,11 @@ services:
       MONGO_PASSWORD: secret
     volumes:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-      - ./data:/data/db 
+      - ./data/mongo:/data/db
   cache:
     image: redis:alpine
     ports:
       - '6379:6379'
+    volumes: 
+      - ./data/redis:/data
     command: ['--requirepass "secret"']

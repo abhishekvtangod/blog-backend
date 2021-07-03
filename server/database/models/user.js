@@ -16,6 +16,8 @@ const UserSchema = new Schema({
         type: String,
         required: true
     }
+}, {
+    timestamps: true
 });
 
 UserSchema.pre('save', async function(){
@@ -30,5 +32,9 @@ UserSchema.methods.matchPassword = function(password){
     const hashedPass = getHashedPass(password)
     return compare(hashedPass, this.password)
 }
+
+UserSchema.set('toJSON', {
+    transform: (doc, {__v, password, ...rest}, options) => rest
+})
 
 export const User = model('User', UserSchema)

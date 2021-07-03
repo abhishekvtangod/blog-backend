@@ -1,5 +1,5 @@
-import { isLoggedIn } from '../controllers/loginUser'
-import { BadRequest } from '../errors'
+import { isLoggedIn } from '../controllers'
+import { BadRequest, Unauthorized } from '../errors'
 
 export const guest = (req, res, next) => {
     if(isLoggedIn(req)){
@@ -7,3 +7,11 @@ export const guest = (req, res, next) => {
     }
     next()
 }
+
+export const notGuest = (req, res, next) => {
+    if(!isLoggedIn(req)){
+        return next(new Unauthorized('You must be logged in')) 
+    }
+    next()
+}
+

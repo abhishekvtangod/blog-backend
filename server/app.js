@@ -13,10 +13,10 @@ import connectRedis from 'connect-redis'
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
-import { login, logout, register } from './routes'
+import { home, login, logout, register } from './routes'
 
 import { REDIS_OPTIONS, SESSION_OPTIONS, MONGO_URI, MONGO_OPTIONS } from './config'
-import { guest } from './middlewares/auth';
+import { guest, notGuest } from './middlewares/auth';
 import { serverError, notFound } from './middlewares';
 
 mongoose.connect(MONGO_URI, MONGO_OPTIONS)
@@ -42,8 +42,9 @@ app.use(express.urlencoded({ extended: false })) //for html post form
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../public')))
 
+app.use('/home', notGuest, home)
 app.use('/login', guest, login)
-app.use('/logout', logout)
+app.use('/logout', notGuest,logout)
 app.use('/register', guest, register)
 
 app.use(notFound)

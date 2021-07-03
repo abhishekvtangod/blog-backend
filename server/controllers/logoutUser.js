@@ -1,3 +1,7 @@
-export const logoutUser = (req, res) => {
-    res.json({ message: "logout"})
+import { logOutSession } from "./auth"
+
+export const logoutUser = async (req, res) => {
+    await logOutSession(req, res)
+
+    res.json({ message: "logged out"})
 }

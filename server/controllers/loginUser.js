@@ -1,12 +1,7 @@
 import { validationResult } from "express-validator";
 import { User } from "../database/models";
 import { BadRequest, Unauthorized } from "../errors";
-
-export const isLoggedIn = (req) => !!req.session.userId
-
-export const loginUserDirect = (req, userId) => {
-    req.session.userId = userId
-}
+import { logInSession } from "./auth";
 
 export const loginUser = async (req, res, next) => {
     const errors = validationResult(req); // Finds the validation errors in this request and wraps them in an object with handy functions
@@ -26,9 +21,9 @@ export const loginUser = async (req, res, next) => {
         throw new Unauthorized("Incorrect email or password")
     }
 
-    loginUserDirect(req, user.id)
+    logInSession(req, user.id)
 
-    res.json({ message: 'OK'})
+    res.json({ message: 'signed in'})
     // res.json(user)
 
 }
