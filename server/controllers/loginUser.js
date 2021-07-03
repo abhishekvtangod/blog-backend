@@ -21,7 +21,7 @@ export const loginUser = async (req, res, next) => {
         throw new Unauthorized("Incorrect email or password")
     }
 
-    logInSession(req, user.id)
+    logInSession(req, user.id, user.username)
 
     res.json({ message: 'signed in'})
     // res.json(user)

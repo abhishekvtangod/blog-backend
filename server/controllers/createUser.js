@@ -24,9 +24,9 @@ export const createUser = async (req, res, next) => {
         username,
         email,
         password
-        })
+    })
     
-    logInSession(req, user.id)
+    logInSession(req, user.id, username)
     res.json({ message: 'OK'})
     // res.json(user)
 }
