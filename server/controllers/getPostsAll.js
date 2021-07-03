@@ -1,7 +1,6 @@
 import { Post } from "../database/models/post"
-import { BadRequest } from "../errors"
 
-export const deletePost = async (req, res, next) => {
+export const getPostsAll = async (req, res, next) => {
     // const errors = validationResult(req); // Finds the validation errors in this request and wraps them in an object with handy functions
 
     // if (!errors.isEmpty()) {
@@ -21,15 +20,11 @@ export const deletePost = async (req, res, next) => {
     // if(found){
     //     throw new BadRequest('Email already exists')
     // }
-    const { username } = req.body
-    if(username !== req.session.username){
-        throw new BadRequest('Not authorized to delete this blog')
-    }
 
-    const post = await Post.findByIdAndRemove(req.params.id)
+    const posts = await Post.find({});
     res.json({ 
-        message: 'Post Removed',
-        post
+        message: 'All posts',
+        posts
     })
     // res.json(user)
 }

@@ -14,7 +14,7 @@ import cors from 'cors'
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
-import { editPost, fetchPost, home, login, logout, newPost, register, removePost } from './routes'
+import { editPost, fetchPost, fetchPostsAll, home, login, logout, newPost, register, removePost } from './routes'
 
 import { REDIS_OPTIONS, SESSION_OPTIONS, MONGO_URI, MONGO_OPTIONS } from './config'
 import { active, guest, notGuest } from './middlewares/auth';
@@ -30,8 +30,6 @@ const store = new RedisStore({ client })
 
 var app = express()
 
-app.use(cors())
-
 app.use(
     session({
         ...SESSION_OPTIONS,
@@ -45,12 +43,15 @@ app.use(express.urlencoded({ extended: false })) //for html post form
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../public')))
 
+app.use(cors({credentials: true, origin: 'http://localhost:3001'}));
+
 app.use(catchAsync(active))
 
 app.use('/home', notGuest, home)
 app.use('/login', guest, login)
 app.use('/logout', notGuest,logout)
 app.use('/register', guest, register)
+app.use('/posts/getAll', notGuest, fetchPostsAll)
 app.use('/posts/get', notGuest, fetchPost)
 app.use('/posts/new', notGuest, newPost)
 app.use('/posts/edit', notGuest, editPost)

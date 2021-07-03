@@ -1,20 +1,20 @@
 version: '3.4'
 
 services:
-  backend:
-    image: backend
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production
-      REDIS_HOST: cache
-      MONGO_HOST: db
-    ports:
-      - 3000:3000
-    links:
-      - db
-      - cache
+  # backend:
+  #   image: backend
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   environment:
+  #     NODE_ENV: production
+  #     REDIS_HOST: cache
+  #     MONGO_HOST: db
+  #   ports:
+  #     - 3000:3000
+  #   links:
+  #     - db
+  #     - cache
   db:
     # user: $UID
     image: mongo
