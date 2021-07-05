@@ -20,10 +20,12 @@ export const loginUser = async (req, res, next) => {
     if(!user || !(await user.matchPassword(password))){
         throw new Unauthorized("Incorrect email or password")
     }
-
     logInSession(req, user.id, user.username)
 
-    res.json({ message: 'signed in'})
+    res.json({ 
+        username: user.username,
+        message: 'signed in'
+    })
     // res.json(user)
 
 }
