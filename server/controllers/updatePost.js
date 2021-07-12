@@ -22,9 +22,10 @@ export const updatePost = async (req, res, next) => {
     //     throw new BadRequest('Email already exists')
     // }
     const { username, title, description, content } = req.body
-    if(username !== req.session.username){
-        throw new BadRequest('Not authorized to edit this blog')
-    }
+    console.log(username, req.session.username);
+    // if(username !== req.session.username){
+    //     throw new BadRequest('Not authorized to edit this blog')
+    // }
 
     const post = await Post.findByIdAndUpdate(req.params.id, { title, description, content}, {new: true})
 

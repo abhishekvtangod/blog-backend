@@ -21,10 +21,7 @@ export const deletePost = async (req, res, next) => {
     // if(found){
     //     throw new BadRequest('Email already exists')
     // }
-    const { username } = req.body
-    if(username !== req.session.username){
-        throw new BadRequest('Not authorized to delete this blog')
-    }
+    
 
     const post = await Post.findByIdAndRemove(req.params.id)
     res.json({ 
